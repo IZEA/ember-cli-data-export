@@ -1,18 +1,26 @@
-import Ember from 'ember';
-import layout from '../templates/components/export-selector';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Ember.Component.extend({
-  layout: layout,
-  types: Ember.computed(function() {
-    return [this.get('selectPrompt'), 'Excel', 'CSV'];
-  }),
-  selectedType : null,
-  actionText: 'Export',
-  selectPrompt: 'Export File',
+export default class ExportSelector extends Component {
+  @tracked selectedType;
 
-  actions: {
-    triggerExport: function() {
-      this.sendAction('exportData', this.get('selectedType'));
+  get actionText() {
+    return this.args.actionText || 'Export';
+  }
+
+  get selectPrompt() {
+    return this.args.selectPrompt || 'Export File';
+  }
+
+  get types() {
+    return [this.selectPrompt, 'Excel', 'CSV'];
+  }
+
+  @action
+  triggerExport() {
+    if (this.args.exportData) {
+      this.args.exportData(this.selectedType);
     }
   }
-});
+}
