@@ -30,4 +30,5 @@ jobs:
       - name: yarn install
         run: yarn install --immutable
 
-      - run: yarn test
+      # TODO: switch this back to `yarn test` once ember-try can support yarn 2
+      - run: yarn test:ember
